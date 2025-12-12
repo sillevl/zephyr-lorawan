@@ -1,0 +1,16 @@
+# Example west.yml for using this module in other projects
+# Place this in your project root or modify your existing west.yml
+
+manifest:
+  remotes:
+    - name: yourname
+      url-base: https://github.com/yourusername
+
+  projects:
+    - name: zephyr-lorawan-helper
+      remote: yourname
+      path: lib/lorawan_helper
+      revision: main
+
+  self:
+    path: .

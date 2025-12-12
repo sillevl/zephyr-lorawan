@@ -1,0 +1,39 @@
+# LoRaWAN Helper Library Configuration
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig LORAWAN_HELPER
+	bool "Enable LoRaWAN Helper Library"
+	depends on LORAWAN
+	help
+	  Enable the DevBit LoRaWAN helper library that provides
+	  a C++ wrapper around Zephyr's LoRaWAN stack with
+	  compile-time configuration helpers.
+
+if LORAWAN_HELPER
+
+config LORAWAN_DEV_EUI
+	string "Device EUI (16 hex characters)"
+	default "0000000000000000"
+	help
+	  Device EUI for LoRaWAN OTAA authentication.
+	  Must be exactly 16 hexadecimal characters (8 bytes).
+
+config LORAWAN_JOIN_EUI
+	string "Join EUI / Application EUI (16 hex characters)"
+	default "0000000000000000"
+	help
+	  Join EUI (formerly App EUI) for LoRaWAN OTAA authentication.
+	  Must be exactly 16 hexadecimal characters (8 bytes).
+
+config LORAWAN_APP_KEY
+	string "Application Key (32 hex characters)"
+	default "00000000000000000000000000000000"
+	help
+	  Application Key for LoRaWAN OTAA authentication.
+	  Must be exactly 32 hexadecimal characters (16 bytes).
+
+module = LORAWAN_HELPER
+module-str = lorawan_helper
+source "subsys/logging/Kconfig.template.log_config"
+
+endif # LORAWAN_HELPER
