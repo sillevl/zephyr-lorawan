@@ -33,6 +33,17 @@ LoRaWAN::~LoRaWAN()
     }
 }
 
+void LoRaWAN::set_adr(bool enabled)
+{
+    adr_enabled_ = enabled;
+}
+
+void LoRaWAN::set_datarate(enum lorawan_datarate dr)
+{
+    datarate_ = dr;
+    datarate_configured_ = true;
+}
+
 int LoRaWAN::connect(const LoRaWANKeys& keys)
 {
     int ret;
@@ -52,6 +63,19 @@ int LoRaWAN::connect(const LoRaWANKeys& keys)
     if (ret < 0) {
         LOG_ERR("Failed to start LoRaWAN stack: %d", ret);
         return ret;
+    }
+
+    lorawan_enable_adr(adr_enabled_);
+    LOG_INF("ADR %s", adr_enabled_ ? "enabled" : "disabled");
+
+    if (datarate_configured_) {
+        ret = lorawan_set_datarate(datarate_);
+        if (ret < 0) {
+            LOG_ERR("Failed to set datarate DR_%d: %d", datarate_, ret);
+            return ret;
+        }
+
+        LOG_INF("Default datarate set to DR_%d", datarate_);
     }
 
     // Generate random DevNonce using hardware entropy

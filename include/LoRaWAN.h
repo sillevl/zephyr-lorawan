@@ -19,9 +19,14 @@ public:
 
     int connect(const LoRaWANKeys& keys);
     void send(const uint8_t* data, size_t len, uint8_t port, bool confirmed);
+    void set_adr(bool enabled);
+    void set_datarate(enum lorawan_datarate dr);
 
 private:
     const struct device* lora_dev_;
+    bool adr_enabled_ = true;
+    bool datarate_configured_ = false;
+    enum lorawan_datarate datarate_ = LORAWAN_DR_5;
     
     // Instance methods for handling callbacks
     void downlink_handler(uint8_t port, uint8_t data_pending,
